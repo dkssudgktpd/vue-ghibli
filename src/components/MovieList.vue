@@ -19,7 +19,7 @@ export default {
     const router = useRouter()
     const detailMove = () => {
       //props를 참조하고자 할 때, setup(props)를 활용
-      router.push('/detail/' + props.item.id)
+      router.push('/page-ghibli/detail/' + props.item.id)
     }
     return{
 detailMove

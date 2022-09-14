@@ -1,7 +1,9 @@
 <template>
+<div>
   <div class="movie" v-for="(item, index) in movieList" :key="index">
     <MovieList :item="item"/>
   </div>
+</div>
 </template>
 
 <script>

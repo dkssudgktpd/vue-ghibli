@@ -37,7 +37,7 @@ setup(){
   store.dispatch('fetchMovieInfo', id)
   const movieInfo = computed(()=>store.getters.getMovieInfo)
   const back = () => {
-    router.push('/')
+    router.push('/page-ghibli/')
   }
   return{
     id, movieInfo, back
