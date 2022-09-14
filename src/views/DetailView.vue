@@ -1,4 +1,5 @@
 <template>
+<div>
 <div class="movie-box"
 :style="{backgroundImage: `url(${movieInfo.movie_banner})`,
 backgroundSize: 'cover',
@@ -17,9 +18,11 @@ backgroundPosition: 'center'}"
   </p>
   <p class="movie-des">Description : {{movieInfo.description}}</p>
   </div>
-  
-
     </div>
+</div>
+<Transition name="fade">
+<div class="detail-intro" v-if="show"></div>
+</Transition>
 </div>
 </template>
 
@@ -27,7 +30,7 @@ backgroundPosition: 'center'}"
 // router를 통해 전송받은 데이터활용
 import {useRoute, useRouter} from 'vue-router'
 import {useStore} from 'vuex'
-import {computed} from 'vue'
+import {computed, onUpdated, onMounted, ref} from 'vue'
 export default {
 setup(){
   const store = useStore();
@@ -39,8 +42,18 @@ setup(){
   const back = () => {
     router.push('/page-ghibli/')
   }
+    const show = ref(true)
+  onMounted(()=>{
+    window.scrollTo(0,0);
+    document.querySelector('html').style.overflowY = 'hidden'
+
+  })
+  onUpdated(()=>{
+    show.value = false
+    document.querySelector('html').style.overflowY = 'auto'
+  })
   return{
-    id, movieInfo, back
+    id, movieInfo, back,show
   }
 }
 }
@@ -51,18 +64,20 @@ setup(){
   position: relative;
   display: block;
   width: 100%;
+  padding: 20px 0;
 }
 .a-back{
-  position: relative;
+  position: absolute;
+  right: 20px;
+  top: 20px;
   display: block;
   cursor: pointer;
   float: right;
-  margin-right: 20px;
   padding: 10px;
   border-radius: 5px;
   background: #333;
   color: #fff;
-  margin-top: 20px;
+z-index: 1;
   font-size: 16px;
 }
 .movie-detail{
@@ -80,7 +95,7 @@ setup(){
   display: block;
   width: 45%;
   height: auto;
-  max-height: 900px;
+  max-height: 950px;
   border-radius: 10px;
   border: 10px solid #fff;
   box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
@@ -138,7 +153,25 @@ setup(){
   border-radius: 5px;
   font-size: 14px;
 }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
 
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.detail-intro{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: url('@/assets/detail.jpg') no-repeat center;
+  background-size: cover;
+  z-index: 99;
+}
 @media screen and (max-width: 1000px){
   .movie-image{
     width: 95%;
